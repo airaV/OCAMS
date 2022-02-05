@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewBag.Title = "DynamicModel";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>DynamicModel</h2>
+@using OCAMS.Models.Accounts;
+@model dynamic
+
+@using (Html.BeginForm("SubmitMarks", "Accounts"))
+{
+
+    @Html.ValidationSummary()
+    <fieldset>
+
+        <legend></legend>
+        <ol>
+
+            @Html.TextBox("Firstname", (string)Model.CreateAccountsViewModel.Person.Firstname)
+        </ol>
+        <ol>
+
+            @Html.TextBox("Lastname", (string)Model.CurentInfo.Person.Lastname)
+        </ol>
+        <input type="submit" value="Submit" />
+    </fieldset>
+
+}
+
+
+

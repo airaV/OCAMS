@@ -1,0 +1,492 @@
+﻿@using OCAMS.Models.Accounts;
+@using OCAMS.Context;
+@model dynamic
+@{
+    ViewBag.Title = "Accounts";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/jquery.datetimepicker.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.datetimepicker.js"></script>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+        $('#agencyAccountList').DataTable({
+            scrollY: "300px",
+            scrollX: true,
+            scrollCollapse: true,
+            paging: true,
+            pageLength: 20,
+            columnDefs: [
+                { width: 150, targets: 0 },
+                { width: 150, targets: 1 },
+                { width: 100, targets: 2 },
+                { width: 100, targets: 3 },
+                { width: 200, targets: 4 },
+                { width: 200, targets: 5 },
+                { width: 250, targets: 6 },
+                { width: 150, targets: 10 }
+
+            ]
+        });
+        $('#memberAccountList').DataTable({
+            scrollY: "300px",
+            scrollX: true,
+            scrollCollapse: true,
+            paging: true,
+            pageLength: 20,
+            columnDefs: [
+                { width: 150, targets: 0 },
+                { width: 150, targets: 1 },
+                { width: 100, targets: 2 },
+                { width: 100, targets: 3 },
+                { width: 200, targets: 4 },
+                { width: 200, targets: 5 },
+                { width: 250, targets: 6 }
+            ]
+        });
+        $('#subAccountList').DataTable({
+            scrollY: "300px",
+            scrollX: true,
+            scrollCollapse: true,
+            paging: true,
+            pageLength: 20,
+            columnDefs: [
+                { width: 150, targets: 0 },
+                { width: 150, targets: 1 },
+                { width: 100, targets: 2 },
+                { width: 100, targets: 3 },
+                { width: 200, targets: 4 },
+                { width: 200, targets: 5 },
+                { width: 250, targets: 6 }
+            ]
+        });
+    });
+    $(function () {
+        $('#html1').jstree({
+            'core': {
+                'data': {
+                    'url': '/Accounts/Nodes',
+                    'data': function (node) {
+                        console.log(node);
+                        return { 'id': node.id };
+                    }
+                }
+            }
+        });
+    });
+
+
+    //$('#Birthdate').datepicker({
+    //    changeMonth: true,
+    //    changeYear: true,
+    //    format: "dd/mm/yyyy"
+    //});
+
+    $('#Birthdate').datetimepicker();
+    $('#Birthdate').datetimepicker({ format: 'YYYY-MM-DD HH:mm:ss' });
+</script>
+
+<div class="row">
+    <div style="background-color: lavender; overflow-x: auto;" class="col-sm-2 col-sm-push-8">
+        <div id="html1">
+
+        </div>
+        <br />
+    </div>
+    <div class="col-sm-10 col-sm-pull-4" style="background-color: #fff;">
+        <div class="card">
+            <div class="card-header">
+                <div class="row g-4">
+                    <div class="col-sm">
+                        <label><strong>Agent:</strong></label>
+                        <label asp-for="" class="control-label">@Model.CurentInfo.User.Username</label>
+                    </div>
+                    <div class="col-sm">
+                        <label><strong>Remaining Balance:</strong></label>
+                        <label asp-for="" class="control-label">@Model.CurentInfo.Account.TotalCasinoBalance</label>
+                    </div>
+                    <div class="col-sm">
+                        <label><strong>Satus:</strong></label>
+                        <label>@Model.CurentInfo.Account.IsActiveDescription</label>
+                    </div>
+                    <div class="col-sm">
+                        <label><strong>Betting Satus:</strong></label>
+                        <label>Normal</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+
+            </div>
+            <div class="card-body">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="home-tab" data-toggle="tab" data-target="#agenttablist" type="button" role="tab" aria-controls="agenttablist" aria-selected="true">Agent List</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="profile-tab" data-toggle="tab" data-target="#subaccounttablist" type="button" role="tab" aria-controls="subaccounttablist" aria-selected="false">Sub-Account</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="contact-tab" data-toggle="tab" data-target="#membertablist" type="button" role="tab" aria-controls="membertablist" aria-selected="false">Member List</button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent" style="padding:50px;">
+                    @*agent*@
+                    <div class="tab-pane fade show active" id="agenttablist" role="tabpanel" aria-labelledby="agent-tab">
+                        <div style="float: right;">
+                            <a class="btn btn-primary " data-toggle="modal" data-target="#CreateAgentModal" id="AgentModal">Create <i class="fa fa-plus"></i></a>
+                        </div>
+                        <div style="margin-top: 10px;">
+                            <table class="table" id="agencyAccountList">
+                                <thead>
+                                    <tr>
+                                        <th>UserID</th>
+                                        <th>FullName</th>
+                                        <th>Level</th>
+                                        <th>Currency</th>
+                                        <th>CreditLimit</th>
+                                        <th>CasinoBalance</th>
+                                        <th>TotalCasBal</th>
+                                        <th>Commission</th>
+                                        <th>Deposit</th>
+                                        <th>Withdrawal</th>
+                                        <th>User Settings</th>
+                                        <th>Permission</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (AccountsViewModel item in Model.AccountsViewAgentList)
+                                    {
+                                        <tr>
+                                            <td>@Html.DisplayFor(modelItem => item.User.Username)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.Fullname)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.LevelName)</td>
+                                            <td> @Html.DisplayFor(modelItem => item.CurrencyName)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.Account.CreditLimit)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.Account.CasinoBalance)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.Account.TotalCasinoBalance)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.Account.Commission)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.Account.Deposit)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.Account.Withdrawal)</td>
+                                            <td>
+                                                <a class="btn btn-primary popup" data-url="Account/CreateSample" data-toggle="modal" data-target="#modal-create-edit-user" id="UserModel"> <i class="fa fa-user-cog"></i></a>
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-primary popup" data-url="Account/CreateSample" data-toggle="modal" data-target="#modal-create-edit-user" id="UserModel"><i class="fa fa-user-check"></i></a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    @*end*@
+                    @*subaccountlist*@
+                    <div class="tab-pane fade show" id="subaccounttablist" role="tabpanel" aria-labelledby="subaccount-tab">
+                        <div style="float: right;">
+                            <a class="btn btn-primary " data-toggle="modal" data-target="#CreateAgentModal" id="AgentModal">Create <i class="fa fa-plus"></i></a>
+                        </div>
+                        <div style="margin-top: 10px;">
+                            <table class="table" id="subAccountList">
+                                <thead>
+                                    <tr>
+                                        <th>UserID</th>
+                                        <th>FullName</th>
+                                        <th>Level</th>
+                                        <th>Currency</th>
+                                        <th>CreditLimit</th>
+                                        <th>CasinoBalance</th>
+                                        <th>TotalCasBal</th>
+                                        <th>Commission</th>
+                                        <th>Deposit</th>
+                                        <th>Withdrawal</th>
+                                        <th>User Settings</th>
+                                        <th>Permission</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (AccountsViewModel item in Model.AccountsViewSubAccountList)
+                                    {
+                                        <tr>
+                                            <td>@Html.DisplayFor(modelItem => item.User.Username)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.Fullname)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.LevelName)</td>
+                                            <td> @Html.DisplayFor(modelItem => item.CurrencyName)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.Account.CreditLimit)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.Account.CasinoBalance)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.Account.TotalCasinoBalance)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.Account.Commission)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.Account.Deposit)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.Account.Withdrawal)</td>
+                                            <td>
+                                                <a class="btn btn-primary popup" data-url="Account/CreateSample" data-toggle="modal" data-target="#modal-create-edit-user" id="UserModel"> <i class="fa fa-user-cog"></i></a>
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-primary popup" data-url="Account/CreateSample" data-toggle="modal" data-target="#modal-create-edit-user" id="UserModel"><i class="fa fa-user-check"></i></a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    @*endsubaccount*@
+
+                    @*member*@
+                    <div class="tab-pane fade show" id="membertablist" role="tabpanel" aria-labelledby="member-tab">
+                        <div style="float: right;">
+                            <a class="btn btn-primary " data-toggle="modal" data-target="#CreateAgentModal" id="AgentModal">Create <i class="fa fa-plus"></i></a>
+                        </div>
+                        <div style="margin-top: 10px;">
+                            <table class="table" id="memberAccountList">
+                                <thead>
+                                    <tr>
+                                        <th>UserID</th>
+                                        <th>FullName</th>
+                                        <th>Level</th>
+                                        <th>Currency</th>
+                                        <th>CreditLimit</th>
+                                        <th>CasinoBalance</th>
+                                        <th>TotalCasBal</th>
+                                        <th>Commission</th>
+                                        <th>Deposit</th>
+                                        <th>Withdrawal</th>
+                                        <th>User Settings</th>
+                                        <th>Permission</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (AccountsViewModel item in Model.AccountsViewMemberList)
+                                    {
+                                        <tr>
+                                            <td>@Html.DisplayFor(modelItem => item.User.Username)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.Fullname)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.LevelName)</td>
+                                            <td> @Html.DisplayFor(modelItem => item.CurrencyName)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.Account.CreditLimit)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.Account.CasinoBalance)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.Account.TotalCasinoBalance)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.Account.Commission)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.Account.Deposit)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.Account.Withdrawal)</td>
+                                            <td>
+                                                <a class="btn btn-primary popup" data-url="Account/CreateSample" data-toggle="modal" data-target="#modal-create-edit-user" id="UserModel"> <i class="fa fa-user-cog"></i></a>
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-primary popup" data-url="Account/CreateSample" data-toggle="modal" data-target="#modal-create-edit-user" id="UserModel"><i class="fa fa-user-check"></i></a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    @*end*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*modal*@
+<div class="modal fade" id="CreateAgentModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <!--Modal Header Start-->
+            <div class="modal-header">
+                <h4 class="modal-title">Add Agent List</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            </div>
+            <!--Modal Header End-->
+            <div class="modal-body form-horizontal">
+                @using (Html.BeginForm("Create", "Accounts", FormMethod.Post))
+                {
+                    @*<form asp-action="Create">*@
+                    <div class="card">
+                        <div class="card-body">
+                            <ul class="nav nav-tabs" id="myTabModal" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="person-tab" data-toggle="tab" data-target="#PersonTab" type="button" role="tab" aria-controls="PersonTab" aria-selected="true">Personal Info</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="user-tab" data-toggle="tab" data-target="#UserTab" type="button" role="tab" aria-controls="UserTab" aria-selected="false">User Info</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="agent-tab" data-toggle="tab" data-target="#AgentTab" type="button" role="tab" aria-controls="AgentTab" aria-selected="false">Agent Info</button>
+                                </li>
+
+                            </ul>
+                        </div>
+                        <div class="tab-content" id="myTabContentModal" style="padding:50px;">
+                            <div class="tab-pane fade show active" id="PersonTab" role="tabpanel" aria-labelledby="person-tab">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label>Firstname</label>
+                                            @Html.TextBox("Firstname", (string)Model.AccountsViewModel.Person.Firstname, new { @class = "form-control" })
+
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label>Middlename</label>
+                                            @Html.TextBox("Middlename", (string)Model.AccountsViewModel.Person.Middlename, new { @class = "form-control" })
+
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label>Lastname</label>
+                                            @Html.TextBox("Lastname", (string)Model.AccountsViewModel.Person.Lastname, new { @class = "form-control" })
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label>Birthdate</label>
+                                            @Html.TextBox("Birthdate", (string)Model.AccountsViewModel.Person.Birthdate, new { @readonly = "readonly" })
+
+                                            <div class="input-group date" id="Birthdate">
+                                                <input id="txtBirthdate" type="text" class="form-control" name="txtBirthdate" placeholder="mm/dd/yyyy" style="z-index: initial" />
+                                                <span class="input-group-addon">
+                                                    <span class="fa fa-calendar"></span>
+                                                </span>
+                                            </div>
+                                            @*<input asp-for="CreateAccountModel.Birthdate" class="form-control" />*@
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label>ContactNumber</label>
+                                            @Html.TextBox("ContactNumber", (string)Model.AccountsViewModel.Person.ContactNumber, new { @class = "form-control" })
+                                            @*<input asp-for="CreateAccountModel.ContactNumber" class="form-control" />*@
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label>Email</label>
+                                            @Html.TextBox("Email", (string)Model.AccountsViewModel.Person.Email, new { @class = "form-control" })
+                                            @*<input asp-for="CreateAccountModel.Email" class="form-control" />*@
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label>Address</label>
+                                        @Html.TextArea("Email", (string)Model.AccountsViewModel.Person.Address, new { @class = "form-control" })
+                                        @*<textarea asp-for="CreateAccountModel.Address" class="form-group"></textarea>*@
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade show" id="UserTab" role="tabpanel" aria-labelledby="user-tab">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label>Username</label>
+                                            @Html.TextBox("Username", (string)Model.AccountsViewModel.User.Username, new { @class = "form-control" })
+                                            @*<input asp-for="CreateAccountModel.Username" class="form-control" />*@
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label>Password</label>
+                                            @Html.TextBox("Password", (string)Model.AccountsViewModel.User.Password, new { @class = "form-control", @type = "password" })
+                                            @*<input asp-for="CreateAccountModel.Password" type="password" class="form-control" />*@
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade show" id="AgentTab" role="tabpanel" aria-labelledby="user-tab">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label>Account Level</label>
+                                            @*@Html.DropDownListFor(model => model.AccountsViewModel.Account.AccountLevelId, Model.AccountLevelList.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }), new { @class = "form-control", @type = "password" })*@
+                                            @Html.DropDownList("AccountLevel", new SelectList(Model.AccountLevelList, "Id", "Name"), new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label>Account Type</label>
+                                            <input class="form-control" value="AGENT" disabled />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label>Credit Limit</label>
+                                            @Html.TextBox("CreditLimit", (string)Model.AccountsViewModel.Account.CreditLimit, new { @class = "form-control" })
+                                            @*<input asp-for="CreateAccountModel.CreditLimit" class="form-control" />*@
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label>Currency</label>
+                                            <input class="form-control " value="PHP" disabled />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label>Casino Balance</label>
+                                            @Html.TextBox("CasinoBalance", (string)Model.AccountsViewModel.Account.CasinoBalance, new { @class = "form-control" })
+                                            @*<input asp-for="CreateAccountModel.CasinoBalance" class="form-control" />*@
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label>Total Casino Balance</label>
+                                            @Html.TextBox("TotalCasinoBalance", (string)Model.AccountsViewModel.Account.TotalCasinoBalance, new { @class = "form-control" })
+                                            @*<input asp-for="CreateAccountModel.TotalCasinoBalance" class="form-control" />*@
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label>Commission</label>
+                                            @Html.TextBox("Commission", (string)Model.AccountsViewModel.Account.Commission, new { @class = "form-control" })
+                                            @*<input asp-for="CreateAccountModel.Commission" class="form-control" />*@
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label>Deposit</label>
+                                            @Html.TextBox("Deposit", (string)Model.AccountsViewModel.Account.Deposit, new { @class = "form-control" })
+                                            @*<input asp-for="CreateAccountModel.Deposit" class="form-control" />*@
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label>Withdrawal</label>
+                                            @Html.TextBox("Withdrawal", (string)Model.AccountsViewModel.Account.Withdrawal, new { @class = "form-control" })
+                                            @*<input asp-for="CreateAccountModel.Withdrawal" class="form-control" />*@
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top:10px; text-align:center;">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                        @*@Html.ActionLink("Create", "Create", "Accounts", new { model = Model.AccountsViewModel }, new { @class = "btn btn-primary" })*@
+                    </div>
+                    @*</form>*@
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,790 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="OCAMSDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="OCAMS_Account">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PersonId" Type="bigint" />
+          <Property Name="UserId" Type="bigint" />
+          <Property Name="AccountLevelId" Type="bigint" />
+          <Property Name="AccountTypeId" Type="bigint" />
+          <Property Name="CreditLimit" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="CurrencyId" Type="bigint" />
+          <Property Name="CasinoBalance" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="TotalCasinoBalance" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Commission" Type="int" />
+          <Property Name="Deposit" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Withdrawal" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="CreatedBy" Type="bigint" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="UpdatedBy" Type="bigint" />
+          <Property Name="UpdatedDate" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'OCAMSDB.dbo.OCAMS_AccountLevel' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="OCAMS_AccountLevel">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="CreatedBy" />
+            <PropertyRef Name="CreatedDate" />
+            <PropertyRef Name="IsActive" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="CreatedBy" Type="bigint" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="UpdatedBy" Type="bigint" />
+          <Property Name="UpdatedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="OCAMS_AccountParentChild">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AccountId" Type="bigint" Nullable="false" />
+          <Property Name="ParentAccountId" Type="bigint" />
+          <Property Name="CreatedBy" Type="bigint" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedBy" Type="bigint" />
+          <Property Name="UpdatedDate" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'OCAMSDB.dbo.OCAMS_AccountType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="OCAMS_AccountType">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="CreatedBy" />
+            <PropertyRef Name="CreatedDate" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CreatedBy" Type="bigint" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedBy" Type="bigint" />
+          <Property Name="UpdatedDate" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'OCAMSDB.dbo.OCAMS_CasinoBalance' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="OCAMS_CasinoBalance">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AccountId" Type="bigint" />
+          <Property Name="Balance" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="TotalCasinoBalance" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="CreatedBy" Type="bigint" />
+          <Property Name="CreatedDate" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'OCAMSDB.dbo.OCAMS_Commission' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="OCAMS_Commission">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AccountId" Type="bigint" />
+          <Property Name="Commission" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="CreatedBy" Type="bigint" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="UpdatedBy" Type="bigint" />
+          <Property Name="UpdatedDate" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'OCAMSDB.dbo.OCAMS_Currency' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="OCAMS_Currency">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CurrencyName" Type="nvarchar" MaxLength="50" />
+          <Property Name="CurrencySign" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreatedBy" Type="bigint" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="UpdatedBy" Type="bigint" />
+          <Property Name="UpdatedDate" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'OCAMSDB.dbo.OCAMS_Deposit' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="OCAMS_Deposit">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AccountId" Type="bigint" />
+          <Property Name="Deposit" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="CreatedBy" Type="bigint" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="UpdatedBy" Type="bigint" />
+          <Property Name="UpdatedDate" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'OCAMSDB.dbo.OCAMS_GeneralSettings' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="OCAMS_GeneralSettings">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserSettingsLevel" Type="bigint" />
+          <Property Name="MaxDownLines" Type="int" />
+          <Property Name="CreatedBy" Type="bigint" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="UpdatedBy" Type="bigint" />
+          <Property Name="UpdatedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="OCAMS_Person">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Firstname" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Middlename" Type="nvarchar" MaxLength="50" />
+          <Property Name="Lastname" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Birthdate" Type="datetime" />
+          <Property Name="ContactNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="bigint" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedBy" Type="bigint" />
+          <Property Name="UpdatedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="OCAMS_User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AspNetUserId" Type="nvarchar" MaxLength="450" />
+          <Property Name="PersonId" Type="bigint" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserTypeId" Type="bigint" Nullable="false" />
+          <Property Name="IsOTPEnable" Type="bit" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="CreatedBy" Type="bigint" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedBy" Type="bigint" />
+          <Property Name="UpdatedDate" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'OCAMSDB.dbo.OCAMS_UserSettingsCasino' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="OCAMS_UserSettingsCasino">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AccountId" Type="bigint" />
+          <Property Name="IsAllowToPay" Type="bit" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'OCAMSDB.dbo.OCAMS_UserType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="OCAMS_UserType">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="IsActive" />
+            <PropertyRef Name="CreatedBy" />
+            <PropertyRef Name="CreatedDate" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="bigint" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedBy" Type="bigint" />
+          <Property Name="UpdatedDate" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'OCAMSDB.dbo.OCAMS_Withdraw' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="OCAMS_Withdraw">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AccountId" Type="bigint" />
+          <Property Name="Withdraw" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="CreatedBy" Type="bigint" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="UpdatedBy" Type="bigint" />
+          <Property Name="UpdatedDate" Type="datetime" />
+        </EntityType>
+        <EntityContainer Name="OCAMSDBModelStoreContainer">
+          <EntitySet Name="OCAMS_Account" EntityType="Self.OCAMS_Account" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OCAMS_AccountParentChild" EntityType="Self.OCAMS_AccountParentChild" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OCAMS_Person" EntityType="Self.OCAMS_Person" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OCAMS_User" EntityType="Self.OCAMS_User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OCAMS_AccountLevel" EntityType="Self.OCAMS_AccountLevel" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [OCAMS_AccountLevel].[Id] AS [Id], 
+    [OCAMS_AccountLevel].[Name] AS [Name], 
+    [OCAMS_AccountLevel].[Description] AS [Description], 
+    [OCAMS_AccountLevel].[CreatedBy] AS [CreatedBy], 
+    [OCAMS_AccountLevel].[CreatedDate] AS [CreatedDate], 
+    [OCAMS_AccountLevel].[IsActive] AS [IsActive], 
+    [OCAMS_AccountLevel].[UpdatedBy] AS [UpdatedBy], 
+    [OCAMS_AccountLevel].[UpdatedDate] AS [UpdatedDate]
+    FROM [dbo].[OCAMS_AccountLevel] AS [OCAMS_AccountLevel]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="OCAMS_AccountType" EntityType="Self.OCAMS_AccountType" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [OCAMS_AccountType].[Id] AS [Id], 
+    [OCAMS_AccountType].[Name] AS [Name], 
+    [OCAMS_AccountType].[Description] AS [Description], 
+    [OCAMS_AccountType].[CreatedBy] AS [CreatedBy], 
+    [OCAMS_AccountType].[CreatedDate] AS [CreatedDate], 
+    [OCAMS_AccountType].[UpdatedBy] AS [UpdatedBy], 
+    [OCAMS_AccountType].[UpdatedDate] AS [UpdatedDate]
+    FROM [dbo].[OCAMS_AccountType] AS [OCAMS_AccountType]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="OCAMS_CasinoBalance" EntityType="Self.OCAMS_CasinoBalance" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [OCAMS_CasinoBalance].[Id] AS [Id], 
+    [OCAMS_CasinoBalance].[AccountId] AS [AccountId], 
+    [OCAMS_CasinoBalance].[Balance] AS [Balance], 
+    [OCAMS_CasinoBalance].[TotalCasinoBalance] AS [TotalCasinoBalance], 
+    [OCAMS_CasinoBalance].[CreatedBy] AS [CreatedBy], 
+    [OCAMS_CasinoBalance].[CreatedDate] AS [CreatedDate]
+    FROM [dbo].[OCAMS_CasinoBalance] AS [OCAMS_CasinoBalance]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="OCAMS_Commission" EntityType="Self.OCAMS_Commission" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [OCAMS_Commission].[Id] AS [Id], 
+    [OCAMS_Commission].[AccountId] AS [AccountId], 
+    [OCAMS_Commission].[Commission] AS [Commission], 
+    [OCAMS_Commission].[CreatedBy] AS [CreatedBy], 
+    [OCAMS_Commission].[CreatedDate] AS [CreatedDate], 
+    [OCAMS_Commission].[UpdatedBy] AS [UpdatedBy], 
+    [OCAMS_Commission].[UpdatedDate] AS [UpdatedDate]
+    FROM [dbo].[OCAMS_Commission] AS [OCAMS_Commission]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="OCAMS_Currency" EntityType="Self.OCAMS_Currency" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [OCAMS_Currency].[Id] AS [Id], 
+    [OCAMS_Currency].[CurrencyName] AS [CurrencyName], 
+    [OCAMS_Currency].[CurrencySign] AS [CurrencySign], 
+    [OCAMS_Currency].[CreatedBy] AS [CreatedBy], 
+    [OCAMS_Currency].[CreatedDate] AS [CreatedDate], 
+    [OCAMS_Currency].[UpdatedBy] AS [UpdatedBy], 
+    [OCAMS_Currency].[UpdatedDate] AS [UpdatedDate]
+    FROM [dbo].[OCAMS_Currency] AS [OCAMS_Currency]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="OCAMS_Deposit" EntityType="Self.OCAMS_Deposit" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [OCAMS_Deposit].[Id] AS [Id], 
+    [OCAMS_Deposit].[AccountId] AS [AccountId], 
+    [OCAMS_Deposit].[Deposit] AS [Deposit], 
+    [OCAMS_Deposit].[CreatedBy] AS [CreatedBy], 
+    [OCAMS_Deposit].[CreatedDate] AS [CreatedDate], 
+    [OCAMS_Deposit].[UpdatedBy] AS [UpdatedBy], 
+    [OCAMS_Deposit].[UpdatedDate] AS [UpdatedDate]
+    FROM [dbo].[OCAMS_Deposit] AS [OCAMS_Deposit]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="OCAMS_GeneralSettings" EntityType="Self.OCAMS_GeneralSettings" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [OCAMS_GeneralSettings].[Id] AS [Id], 
+    [OCAMS_GeneralSettings].[UserSettingsLevel] AS [UserSettingsLevel], 
+    [OCAMS_GeneralSettings].[MaxDownLines] AS [MaxDownLines], 
+    [OCAMS_GeneralSettings].[CreatedBy] AS [CreatedBy], 
+    [OCAMS_GeneralSettings].[CreatedDate] AS [CreatedDate], 
+    [OCAMS_GeneralSettings].[UpdatedBy] AS [UpdatedBy], 
+    [OCAMS_GeneralSettings].[UpdatedDate] AS [UpdatedDate]
+    FROM [dbo].[OCAMS_GeneralSettings] AS [OCAMS_GeneralSettings]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="OCAMS_UserSettingsCasino" EntityType="Self.OCAMS_UserSettingsCasino" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [OCAMS_UserSettingsCasino].[Id] AS [Id], 
+    [OCAMS_UserSettingsCasino].[AccountId] AS [AccountId], 
+    [OCAMS_UserSettingsCasino].[IsAllowToPay] AS [IsAllowToPay]
+    FROM [dbo].[OCAMS_UserSettingsCasino] AS [OCAMS_UserSettingsCasino]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="OCAMS_UserType" EntityType="Self.OCAMS_UserType" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [OCAMS_UserType].[Id] AS [Id], 
+    [OCAMS_UserType].[Name] AS [Name], 
+    [OCAMS_UserType].[Description] AS [Description], 
+    [OCAMS_UserType].[IsActive] AS [IsActive], 
+    [OCAMS_UserType].[CreatedBy] AS [CreatedBy], 
+    [OCAMS_UserType].[CreatedDate] AS [CreatedDate], 
+    [OCAMS_UserType].[UpdatedBy] AS [UpdatedBy], 
+    [OCAMS_UserType].[UpdatedDate] AS [UpdatedDate]
+    FROM [dbo].[OCAMS_UserType] AS [OCAMS_UserType]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="OCAMS_Withdraw" EntityType="Self.OCAMS_Withdraw" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [OCAMS_Withdraw].[Id] AS [Id], 
+    [OCAMS_Withdraw].[AccountId] AS [AccountId], 
+    [OCAMS_Withdraw].[Withdraw] AS [Withdraw], 
+    [OCAMS_Withdraw].[CreatedBy] AS [CreatedBy], 
+    [OCAMS_Withdraw].[CreatedDate] AS [CreatedDate], 
+    [OCAMS_Withdraw].[UpdatedBy] AS [UpdatedBy], 
+    [OCAMS_Withdraw].[UpdatedDate] AS [UpdatedDate]
+    FROM [dbo].[OCAMS_Withdraw] AS [OCAMS_Withdraw]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="OCAMSDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="OCAMSDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="OCAMS_Account" EntityType="OCAMSDBModel.OCAMS_Account" />
+          <EntitySet Name="OCAMS_Person" EntityType="OCAMSDBModel.OCAMS_Person" />
+          <EntitySet Name="OCAMS_User" EntityType="OCAMSDBModel.OCAMS_User" />
+          <EntitySet Name="OCAMS_AccountLevel" EntityType="OCAMSDBModel.OCAMS_AccountLevel" />
+          <EntitySet Name="OCAMS_AccountType" EntityType="OCAMSDBModel.OCAMS_AccountType" />
+          <EntitySet Name="OCAMS_CasinoBalance" EntityType="OCAMSDBModel.OCAMS_CasinoBalance" />
+          <EntitySet Name="OCAMS_Commission" EntityType="OCAMSDBModel.OCAMS_Commission" />
+          <EntitySet Name="OCAMS_Currency" EntityType="OCAMSDBModel.OCAMS_Currency" />
+          <EntitySet Name="OCAMS_Deposit" EntityType="OCAMSDBModel.OCAMS_Deposit" />
+          <EntitySet Name="OCAMS_GeneralSettings" EntityType="OCAMSDBModel.OCAMS_GeneralSettings" />
+          <EntitySet Name="OCAMS_UserSettingsCasino" EntityType="OCAMSDBModel.OCAMS_UserSettingsCasino" />
+          <EntitySet Name="OCAMS_UserType" EntityType="OCAMSDBModel.OCAMS_UserType" />
+          <EntitySet Name="OCAMS_Withdraw" EntityType="OCAMSDBModel.OCAMS_Withdraw" />
+          <EntitySet Name="OCAMS_AccountParentChild" EntityType="OCAMSDBModel.OCAMS_AccountParentChild" />
+        </EntityContainer>
+        <EntityType Name="OCAMS_Account">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PersonId" Type="Int64" />
+          <Property Name="UserId" Type="Int64" />
+          <Property Name="AccountLevelId" Type="Int64" />
+          <Property Name="AccountTypeId" Type="Int64" />
+          <Property Name="CreditLimit" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="CurrencyId" Type="Int64" />
+          <Property Name="CasinoBalance" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="TotalCasinoBalance" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Commission" Type="Int32" />
+          <Property Name="Deposit" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Withdrawal" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="CreatedBy" Type="Int64" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="Int64" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="OCAMS_Person">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Firstname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Middlename" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Lastname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Birthdate" Type="DateTime" Precision="3" />
+          <Property Name="ContactNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int64" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedBy" Type="Int64" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="OCAMS_User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AspNetUserId" Type="String" MaxLength="450" FixedLength="false" Unicode="true" />
+          <Property Name="PersonId" Type="Int64" Nullable="false" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserTypeId" Type="Int64" Nullable="false" />
+          <Property Name="IsOTPEnable" Type="Boolean" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="CreatedBy" Type="Int64" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedBy" Type="Int64" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="OCAMS_AccountLevel">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="CreatedBy" />
+            <PropertyRef Name="CreatedDate" />
+            <PropertyRef Name="IsActive" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedBy" Type="Int64" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="UpdatedBy" Type="Int64" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="OCAMS_AccountType">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="CreatedBy" />
+            <PropertyRef Name="CreatedDate" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedBy" Type="Int64" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedBy" Type="Int64" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="OCAMS_CasinoBalance">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AccountId" Type="Int64" />
+          <Property Name="Balance" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="TotalCasinoBalance" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="CreatedBy" Type="Int64" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="OCAMS_Commission">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AccountId" Type="Int64" />
+          <Property Name="Commission" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="CreatedBy" Type="Int64" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="Int64" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="OCAMS_Currency">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CurrencyName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CurrencySign" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedBy" Type="Int64" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="Int64" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="OCAMS_Deposit">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AccountId" Type="Int64" />
+          <Property Name="Deposit" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="CreatedBy" Type="Int64" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="Int64" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="OCAMS_GeneralSettings">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserSettingsLevel" Type="Int64" />
+          <Property Name="MaxDownLines" Type="Int32" />
+          <Property Name="CreatedBy" Type="Int64" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="Int64" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="OCAMS_UserSettingsCasino">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AccountId" Type="Int64" />
+          <Property Name="IsAllowToPay" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="OCAMS_UserType">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="IsActive" />
+            <PropertyRef Name="CreatedBy" />
+            <PropertyRef Name="CreatedDate" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int64" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedBy" Type="Int64" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="OCAMS_Withdraw">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AccountId" Type="Int64" />
+          <Property Name="Withdraw" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="CreatedBy" Type="Int64" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="Int64" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="OCAMS_AccountParentChild">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AccountId" Type="Int64" Nullable="false" />
+          <Property Name="ParentAccountId" Type="Int64" />
+          <Property Name="CreatedBy" Type="Int64" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedBy" Type="Int64" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="OCAMSDBModelStoreContainer" CdmEntityContainer="OCAMSDBEntities">
+          <EntitySetMapping Name="OCAMS_Account">
+            <EntityTypeMapping TypeName="OCAMSDBModel.OCAMS_Account">
+              <MappingFragment StoreEntitySet="OCAMS_Account">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Withdrawal" ColumnName="Withdrawal" />
+                <ScalarProperty Name="Deposit" ColumnName="Deposit" />
+                <ScalarProperty Name="Commission" ColumnName="Commission" />
+                <ScalarProperty Name="TotalCasinoBalance" ColumnName="TotalCasinoBalance" />
+                <ScalarProperty Name="CasinoBalance" ColumnName="CasinoBalance" />
+                <ScalarProperty Name="CurrencyId" ColumnName="CurrencyId" />
+                <ScalarProperty Name="CreditLimit" ColumnName="CreditLimit" />
+                <ScalarProperty Name="AccountTypeId" ColumnName="AccountTypeId" />
+                <ScalarProperty Name="AccountLevelId" ColumnName="AccountLevelId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OCAMS_Person">
+            <EntityTypeMapping TypeName="OCAMSDBModel.OCAMS_Person">
+              <MappingFragment StoreEntitySet="OCAMS_Person">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="ContactNumber" ColumnName="ContactNumber" />
+                <ScalarProperty Name="Birthdate" ColumnName="Birthdate" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Lastname" ColumnName="Lastname" />
+                <ScalarProperty Name="Middlename" ColumnName="Middlename" />
+                <ScalarProperty Name="Firstname" ColumnName="Firstname" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OCAMS_User">
+            <EntityTypeMapping TypeName="OCAMSDBModel.OCAMS_User">
+              <MappingFragment StoreEntitySet="OCAMS_User">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsOTPEnable" ColumnName="IsOTPEnable" />
+                <ScalarProperty Name="UserTypeId" ColumnName="UserTypeId" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+                <ScalarProperty Name="AspNetUserId" ColumnName="AspNetUserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OCAMS_AccountLevel">
+            <EntityTypeMapping TypeName="OCAMSDBModel.OCAMS_AccountLevel">
+              <MappingFragment StoreEntitySet="OCAMS_AccountLevel">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OCAMS_AccountType">
+            <EntityTypeMapping TypeName="OCAMSDBModel.OCAMS_AccountType">
+              <MappingFragment StoreEntitySet="OCAMS_AccountType">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OCAMS_CasinoBalance">
+            <EntityTypeMapping TypeName="OCAMSDBModel.OCAMS_CasinoBalance">
+              <MappingFragment StoreEntitySet="OCAMS_CasinoBalance">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="TotalCasinoBalance" ColumnName="TotalCasinoBalance" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OCAMS_Commission">
+            <EntityTypeMapping TypeName="OCAMSDBModel.OCAMS_Commission">
+              <MappingFragment StoreEntitySet="OCAMS_Commission">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Commission" ColumnName="Commission" />
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OCAMS_Currency">
+            <EntityTypeMapping TypeName="OCAMSDBModel.OCAMS_Currency">
+              <MappingFragment StoreEntitySet="OCAMS_Currency">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CurrencySign" ColumnName="CurrencySign" />
+                <ScalarProperty Name="CurrencyName" ColumnName="CurrencyName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OCAMS_Deposit">
+            <EntityTypeMapping TypeName="OCAMSDBModel.OCAMS_Deposit">
+              <MappingFragment StoreEntitySet="OCAMS_Deposit">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Deposit" ColumnName="Deposit" />
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OCAMS_GeneralSettings">
+            <EntityTypeMapping TypeName="OCAMSDBModel.OCAMS_GeneralSettings">
+              <MappingFragment StoreEntitySet="OCAMS_GeneralSettings">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="MaxDownLines" ColumnName="MaxDownLines" />
+                <ScalarProperty Name="UserSettingsLevel" ColumnName="UserSettingsLevel" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OCAMS_UserSettingsCasino">
+            <EntityTypeMapping TypeName="OCAMSDBModel.OCAMS_UserSettingsCasino">
+              <MappingFragment StoreEntitySet="OCAMS_UserSettingsCasino">
+                <ScalarProperty Name="IsAllowToPay" ColumnName="IsAllowToPay" />
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OCAMS_UserType">
+            <EntityTypeMapping TypeName="OCAMSDBModel.OCAMS_UserType">
+              <MappingFragment StoreEntitySet="OCAMS_UserType">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OCAMS_Withdraw">
+            <EntityTypeMapping TypeName="OCAMSDBModel.OCAMS_Withdraw">
+              <MappingFragment StoreEntitySet="OCAMS_Withdraw">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Withdraw" ColumnName="Withdraw" />
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OCAMS_AccountParentChild">
+            <EntityTypeMapping TypeName="OCAMSDBModel.OCAMS_AccountParentChild">
+              <MappingFragment StoreEntitySet="OCAMS_AccountParentChild">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ParentAccountId" ColumnName="ParentAccountId" />
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

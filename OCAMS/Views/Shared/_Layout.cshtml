@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OCAMS 24/7</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/DataTables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+    <link href="~/Content/jsTree/docs.css" rel="stylesheet" />
+    <link href="~/Content/jsTree/themes/default/style.css" rel="stylesheet" />
+    <style>
+        /* adds some margin below the link sets  */
+        .navbar .dropdown-menu div[class*="col"] {
+            margin-bottom: 1rem;
+        }
+
+        .navbar .dropdown-menu {
+            border: none;
+            background-color: #0060c8 !important;
+        }
+
+        /* breakpoint and up - mega dropdown styles */
+        @@media screen and (min-width: 992px) {
+            /* remove the padding from the navbar so the dropdown hover state is not broken */
+            .navbar {
+                padding-top: 0px;
+                padding-bottom: 0px;
+            }
+                /* remove the padding from the nav-item and add some margin to give some breathing room on hovers */
+                .navbar .nav-item {
+                    padding: .5rem .5rem;
+                    margin: 0 .25rem;
+                }
+                /* makes the dropdown full width  */
+                .navbar .dropdown {
+                    position: static;
+                }
+
+                .navbar .dropdown-menu {
+                    width: 100%;
+                    left: 0;
+                    right: 0;
+                    /*  height of nav-item  */
+                    top: 45px;
+                }
+                /* shows the dropdown menu on hover */
+                .navbar .dropdown:hover .dropdown-menu, .navbar .dropdown .dropdown-menu:hover {
+                    display: block !important;
+                }
+
+                .navbar .dropdown-menu {
+                    border: 1px solid rgba(0,0,0,.15);
+                    background-color: #fff;
+                }
+        }
+    </style>
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        @Html.ActionLink("OCAMS 24/7", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    @Html.ActionLink("Dashbard", "Index", "Home", new object { }, new { @class = "nav-link" })
+                </li>
+                <li class="nav-item">
+                    @Html.ActionLink("Accounts", "Index", "Accounts", new object { }, new { @class = "nav-link" })
+                </li>
+            </ul>
+
+            @Html.Partial("_LoginPartial")
+        </div>
+    </nav>
+    <div>
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    <script src="~/DataTables/js/jquery.dataTables.min.js"></script>
+    <script src="~/DataTables/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    <script src="~/Scripts/jsTree3/jstree.min.js"></script>
+    @*<script src="~/Scripts/jsTree3/jstree.js"></script>*@
+
+
+
+</body>
+</html>
